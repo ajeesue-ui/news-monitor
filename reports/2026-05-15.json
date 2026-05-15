@@ -1,0 +1,186 @@
+{
+  "report_id": "20260515-0800",
+  "generated_at_kst": "2026-05-15 08:00",
+  "coverage_period_kst": {
+    "from": "2026-05-14 15:30",
+    "to": "2026-05-15 08:00"
+  },
+  "overall_risk_signal": "매우 높음",
+  "daily_digest": [
+    "트럼프-시진핑 베이징 정상회담 진행 중. 젠슨 황(엔비디아)·머스크(테슬라) 동행, AI칩 수출통제·관세 의제.",
+    "삼성전자 노조 총파업 임박, 14일부터 감산 시작. 일일 22,000장 wafer 손실 우려.",
+    "알파벳 4개월간 $60B 다국적 채권 발행, AI 인프라 자금 조달 가속.",
+    "시장 변동성 확대 예상. 한국 메모리 반도체에 양방향 리스크."
+  ],
+  "total_events": 5,
+  "events_by_company": {
+    "NVDA": 1,
+    "TSLA": 1,
+    "005930": 1,
+    "000660": 1,
+    "GOOGL": 1
+  },
+  "is_test": true,
+  "events": [
+    {
+      "event_id": "20260515-NVDA-01",
+      "ticker": "NVDA",
+      "company_kr": "엔비디아",
+      "title_kr": "젠슨 황, 트럼프 방중에 막판 합류 - 시진핑 회담 동행",
+      "title_original": "Nvidia CEO Huang Joins Trump's China Visit as Last-Minute Addition",
+      "category": "지정학",
+      "occurred_at_kst": "2026-05-13 늦은 시각",
+      "summary": "초청 명단에서 빠졌다가 트럼프 직접 전화로 합류. AI칩 대중 수출 협상 재개 가능성, $500억 시장 회복 기대감 부상.",
+      "impact_path": "미·중 정상회담 → AI칩 수출통제 협상 → 엔비디아 중국 매출",
+      "source_primary": {
+        "name": "Bloomberg",
+        "url": "https://www.bloomberg.com/news/articles/2026-05-13/nvidia-s-huang-joins-trump-s-china-trip-as-last-minute-addition",
+        "tier": 1
+      },
+      "source_secondary": [
+        {
+          "name": "CNBC",
+          "url": "https://www.cnbc.com/2026/05/13/nvidia-says-ceo-jensen-huang-is-joining-trumps-china-trip.html"
+        }
+      ],
+      "verification_status": "verified",
+      "company_response": null,
+      "unpredictability": { "score": 5, "stars": "★★★★★", "reason": "초청 명단 제외 후 24시간 내 합류, 시장 완전 미예상" },
+      "impact": { "score": 4, "stars": "★★★★☆", "reason": "AI칩 대중 수출 정책 변화 가능성" },
+      "total_score": 9,
+      "price_impact_estimate": {
+        "short_term": { "horizon": "1~3일", "range_pct": "-3 ~ +5", "direction": "양방향", "confidence": "낮음" },
+        "mid_term": { "horizon": "1~4주", "range_pct": "-2 ~ +7", "direction": "양방향", "confidence": "낮음" },
+        "rationale": "회담 결과에 따라 양방향. 수출 완화 시 상승, 결렬 시 하락",
+        "disclaimer": "추정치이며 투자 권유가 아닙니다"
+      },
+      "direction": "불확실",
+      "tags": ["미중", "AI칩", "수출규제", "젠슨황"]
+    },
+    {
+      "event_id": "20260515-TSLA-01",
+      "ticker": "TSLA",
+      "company_kr": "테슬라",
+      "title_kr": "머스크, 시진핑 회담 동행 위해 OpenAI 재판 결심 불참",
+      "title_original": "Musk's China trip during OpenAI trial prompts apology from his lawyer",
+      "category": "지정학",
+      "occurred_at_kst": "2026-05-14",
+      "summary": "테슬라 중국 매출 회복 모멘텀 가능성. Signature 이벤트도 5/20로 연기. 미·중 EV/에너지 협력 의제 부상 가능.",
+      "impact_path": "미·중 정상회담 → 관세·EV 정책 → 테슬라 중국 사업",
+      "source_primary": {
+        "name": "CNBC",
+        "url": "https://www.cnbc.com/2026/05/14/musk-lawyer-trial-jury-china-trip-openai-altman.html",
+        "tier": 1
+      },
+      "source_secondary": [],
+      "verification_status": "verified",
+      "company_response": null,
+      "unpredictability": { "score": 3, "stars": "★★★☆☆", "reason": "황 합류 발표 후 같은 맥락이지만 결심 불참 결정은 의외" },
+      "impact": { "score": 3, "stars": "★★★☆☆", "reason": "회담 결과 의존, 단독 임팩트는 제한적" },
+      "total_score": 6,
+      "price_impact_estimate": {
+        "short_term": { "horizon": "1~3일", "range_pct": "-1 ~ +3", "direction": "양방향", "confidence": "낮음" },
+        "mid_term": { "horizon": "1~4주", "range_pct": "회담 성과 발표 시 재평가", "direction": "불확실", "confidence": "낮음" },
+        "rationale": "회담 톤이 친중·친기업이면 상승, 강경이면 하락",
+        "disclaimer": "추정치이며 투자 권유가 아닙니다"
+      },
+      "direction": "중립",
+      "tags": ["미중", "머스크", "베이징회담"]
+    },
+    {
+      "event_id": "20260515-005930-01",
+      "ticker": "005930",
+      "company_kr": "삼성전자",
+      "title_kr": "삼성전자, 총파업 임박에 14일부터 반도체 감산 시작",
+      "title_original": "Samsung cuts chip output ahead of strike as over $67bn disruption feared",
+      "category": "인사·노사",
+      "occurred_at_kst": "2026-05-14 20:11",
+      "summary": "창사 이래 첫 총파업 가능성. 일일 22,000장 wafer 손실, 분당 수십억 원 증발. HBM·메모리 공급 차질 우려.",
+      "impact_path": null,
+      "source_primary": {
+        "name": "KED Global (한경)",
+        "url": "https://www.kedglobal.com/labor-union/newsView/ked202605140007",
+        "tier": 1
+      },
+      "source_secondary": [
+        {
+          "name": "서울경제",
+          "url": "https://en.sedaily.com/finance/2026/05/14/sk-hynix-overtakes-samsung-electronics-in-valuation-for"
+        }
+      ],
+      "verification_status": "verified",
+      "company_response": null,
+      "unpredictability": { "score": 3, "stars": "★★★☆☆", "reason": "파업 가능성은 회자됐으나 14일 감산 시작은 예상보다 이른 액션" },
+      "impact": { "score": 5, "stars": "★★★★★", "reason": "HBM·메모리 공급망 직격, 글로벌 AI 인프라 영향 가능" },
+      "total_score": 8,
+      "price_impact_estimate": {
+        "short_term": { "horizon": "1~3일", "range_pct": "-3 ~ -7", "direction": "하락", "confidence": "보통" },
+        "mid_term": { "horizon": "1~4주", "range_pct": "-2 ~ -5", "direction": "하락", "confidence": "보통" },
+        "rationale": "5/21 파업 시한, 협상 결렬 시 분당 수십억 원 손실 누적",
+        "disclaimer": "추정치이며 투자 권유가 아닙니다"
+      },
+      "direction": "부정",
+      "tags": ["삼성전자", "노조파업", "감산", "HBM"]
+    },
+    {
+      "event_id": "20260515-000660-01",
+      "ticker": "000660",
+      "company_kr": "SK하이닉스",
+      "title_kr": "SK하이닉스, 시총 $1조 임박 - 삼성 PER 사상 첫 추월",
+      "title_original": "AI boom puts SK Hynix on the cusp of $1 trillion market value",
+      "category": "시장",
+      "occurred_at_kst": "2026-05-14",
+      "summary": "로이터 보도. 시총 $948B 도달, 한국 두 번째 1조 달러 기업 임박. 1개월 78.7% 상승, 밸류에이션 부담 가중.",
+      "impact_path": null,
+      "source_primary": {
+        "name": "Reuters (via The Star)",
+        "url": "https://www.thestar.com.my/tech/tech-news/2026/05/14/ai-boom-puts-sk-hynix-on-the-cusp-1-trillion-market-value",
+        "tier": 1
+      },
+      "source_secondary": [],
+      "verification_status": "verified",
+      "company_response": null,
+      "unpredictability": { "score": 2, "stars": "★★☆☆☆", "reason": "AI 붐 연장선이라 시기는 의외였으나 방향성은 예상 가능" },
+      "impact": { "score": 4, "stars": "★★★★☆", "reason": "산업 내 위상 재정립, 한국 증시 전반 영향" },
+      "total_score": 6,
+      "price_impact_estimate": {
+        "short_term": { "horizon": "1~3일", "range_pct": "-3 ~ +3", "direction": "양방향", "confidence": "보통" },
+        "mid_term": { "horizon": "1~4주", "range_pct": "차익실현 압력 vs 추가 모멘텀", "direction": "양방향", "confidence": "낮음" },
+        "rationale": "1개월 78% 급등 후 밸류에이션 부담과 FOMO 혼재",
+        "disclaimer": "추정치이며 투자 권유가 아닙니다"
+      },
+      "direction": "긍정",
+      "tags": ["SK하이닉스", "시가총액", "HBM", "밸류에이션"]
+    },
+    {
+      "event_id": "20260515-GOOGL-01",
+      "ticker": "GOOGL",
+      "company_kr": "알파벳/구글",
+      "title_kr": "알파벳, 4개월간 $60B 다국적 채권 발행 - 사상 최대급",
+      "title_original": "The Debt Binge That Has Alphabet Execs Working the Night Shift",
+      "category": "자본조달",
+      "occurred_at_kst": "2026-05-14 19:06",
+      "summary": "유로·파운드·스위스프랑·캐나다달러·엔화까지 동원. AI 인프라 $180~190B capex 자금 조달. 부채 의존도 증가 신호.",
+      "impact_path": null,
+      "source_primary": {
+        "name": "Bloomberg",
+        "url": "https://www.bloomberg.com/news/newsletters/2026-05-14/the-debt-binge-that-has-alphabet-execs-working-the-night-shift",
+        "tier": 1
+      },
+      "source_secondary": [],
+      "verification_status": "verified",
+      "company_response": null,
+      "unpredictability": { "score": 3, "stars": "★★★☆☆", "reason": "대규모 capex는 예고됐으나 다국적 채권 동원 규모는 의외" },
+      "impact": { "score": 3, "stars": "★★★☆☆", "reason": "이자비용 증가 vs AI 매출 확대 혼재" },
+      "total_score": 6,
+      "price_impact_estimate": {
+        "short_term": { "horizon": "1~3일", "range_pct": "-2 ~ +2", "direction": "중립", "confidence": "보통" },
+        "mid_term": { "horizon": "1~4주", "range_pct": "이자비용 vs AI 매출", "direction": "양방향", "confidence": "낮음" },
+        "rationale": "자금 조달 자체는 중립, 부채 부담 가시화 우려",
+        "disclaimer": "추정치이며 투자 권유가 아닙니다"
+      },
+      "direction": "중립",
+      "tags": ["알파벳", "채권발행", "AI인프라", "자본조달"]
+    }
+  ]
+}

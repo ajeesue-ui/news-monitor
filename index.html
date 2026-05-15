@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0c">
+<title>돌발 이벤트 모니터</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* dark theme (default) */
+    --bg: #0a0a0c;
+    --bg-elevated: #16161a;
+    --bg-card: #1c1c21;
+    --bg-subtle: #232328;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.15);
+    --text-primary: #f5f5f7;
+    --text-secondary: #a1a1a8;
+    --text-tertiary: #6b6b73;
+    --accent: #4a9eff;
+    --accent-bg: rgba(74,158,255,0.12);
+    --success: #30d158;
+    --success-bg: rgba(48,209,88,0.12);
+    --danger: #ff453a;
+    --danger-bg: rgba(255,69,58,0.12);
+    --warning: #ff9f0a;
+    --warning-bg: rgba(255,159,10,0.12);
+    --info: #5ac8fa;
+    --info-bg: rgba(90,200,250,0.12);
+    --neutral: #8e8e93;
+    --neutral-bg: rgba(142,142,147,0.12);
+    --shadow: 0 2px 12px rgba(0,0,0,0.4);
+    --radius: 14px;
+    --radius-lg: 18px;
+  }
+
+  [data-theme="light"] {
+    --bg: #f2f2f7;
+    --bg-elevated: #ffffff;
+    --bg-card: #ffffff;
+    --bg-subtle: #f5f5f7;
+    --border: rgba(0,0,0,0.08);
+    --border-strong: rgba(0,0,0,0.15);
+    --text-primary: #1c1c1e;
+    --text-secondary: #6b6b73;
+    --text-tertiary: #a1a1a8;
+    --accent: #007aff;
+    --accent-bg: rgba(0,122,255,0.1);
+    --success: #34c759;
+    --success-bg: rgba(52,199,89,0.1);
+    --danger: #ff3b30;
+    --danger-bg: rgba(255,59,48,0.1);
+    --warning: #ff9500;
+    --warning-bg: rgba(255,149,0,0.1);
+    --info: #5ac8fa;
+    --info-bg: rgba(90,200,250,0.1);
+    --neutral: #8e8e93;
+    --neutral-bg: rgba(142,142,147,0.1);
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: env(safe-area-inset-top, 0) 16px env(safe-area-inset-bottom, 24px);
+    padding-top: max(env(safe-area-inset-top, 0px), 16px);
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 24px);
+  }
+
+  /* ============ TOP BAR ============ */
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0 16px;
+  }
+
+  .topbar-title {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    letter-spacing: -0.1px;
+  }
+
+  .theme-toggle {
+    background: var(--bg-elevated);
+    border: 0.5px solid var(--border);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+
+  .theme-toggle:active { transform: scale(0.92); }
+
+  /* ============ TEST BANNER ============ */
+  .test-banner {
+    background: var(--warning-bg);
+    color: var(--warning);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ============ HEADER (DIGEST) ============ */
+  .digest {
+    background: var(--bg-elevated);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 24px;
+    border: 0.5px solid var(--border);
+  }
+
+  .digest-meta {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .digest-title {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .digest-date {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  .risk-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .risk-pill.very-high { background: var(--danger-bg); color: var(--danger); }
+  .risk-pill.high { background: var(--warning-bg); color: var(--warning); }
+  .risk-pill.medium { background: var(--info-bg); color: var(--info); }
+  .risk-pill.low { background: var(--success-bg); color: var(--success); }
+
+  .digest-section-title {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    margin: 16px 0 10px;
+    letter-spacing: -0.1px;
+  }
+
+  .digest-list { list-style: none; }
+
+  .digest-list li {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--text-primary);
+    padding: 6px 0;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .digest-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .digest-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .stat-block {
+    background: var(--bg-subtle);
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 2px;
+  }
+
+  .stat-value {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+
+  .events-breakdown {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 0.5px solid var(--border);
+  }
+
+  /* ============ COMPANY SECTION ============ */
+  .company-section { margin-bottom: 28px; }
+
+  .company-header {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .company-count {
+    font-size: 11px;
+    color: var(--text-tertiary);
+  }
+
+  /* ============ EVENT CARD ============ */
+  .event-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: 0.5px solid var(--border);
+    padding: 20px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+    gap: 8px;
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    letter-spacing: -0.1px;
+  }
+
+  .badge.cat { background: var(--accent-bg); color: var(--accent); }
+  .badge.dir-pos { background: var(--success-bg); color: var(--success); }
+  .badge.dir-neg { background: var(--danger-bg); color: var(--danger); }
+  .badge.dir-neu { background: var(--neutral-bg); color: var(--neutral); }
+  .badge.dir-unk { background: var(--warning-bg); color: var(--warning); }
+
+  .total-score {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .event-title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  .event-title-original {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-style: italic;
+    line-height: 1.4;
+    margin-bottom: 14px;
+  }
+
+  .summary-box {
+    background: var(--bg-subtle);
+    padding: 12px 14px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    border-left: 3px solid var(--accent);
+  }
+
+  .box-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 4px;
+  }
+
+  .summary-text {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text-primary);
+  }
+
+  .impact-path-box {
+    background: var(--warning-bg);
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: var(--warning);
+    line-height: 1.5;
+  }
+
+  .scores-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .score-box {
+    background: var(--bg-subtle);
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .score-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 4px;
+  }
+
+  .score-stars {
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: var(--warning);
+    margin-bottom: 4px;
+  }
+
+  .score-reason {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .price-box {
+    background: var(--bg-subtle);
+    padding: 12px 14px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+  }
+
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+    font-size: 13px;
+  }
+
+  .price-row .horizon {
+    color: var(--text-secondary);
+    font-size: 12px;
+  }
+
+  .price-row .value {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .price-row .value.down { color: var(--danger); }
+  .price-row .value.up { color: var(--success); }
+  .price-row .value.bidirectional { color: var(--warning); }
+  .price-row .value.neutral { color: var(--text-secondary); }
+
+  .confidence-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-left: 6px;
+    background: var(--neutral-bg);
+    color: var(--neutral);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .price-rationale {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    line-height: 1.5;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 0.5px solid var(--border);
+  }
+
+  .price-disclaimer {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+  }
+
+  .sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .source-link {
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .source-link:hover { text-decoration: underline; }
+  .source-divider { color: var(--text-tertiary); font-size: 12px; }
+
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-bottom: 8px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 8px;
+    border-top: 0.5px solid var(--border);
+  }
+
+  .tag {
+    font-size: 11px;
+    color: var(--text-secondary);
+    background: var(--bg-subtle);
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+
+  /* ============ EMPTY STATE ============ */
+  .empty-state {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: 0.5px solid var(--border);
+    padding: 28px 20px;
+    text-align: center;
+    color: var(--text-tertiary);
+    font-size: 14px;
+  }
+
+  .empty-state .check { color: var(--success); font-size: 24px; margin-bottom: 6px; }
+
+  /* ============ FOOTER ============ */
+  .footer {
+    background: var(--bg-elevated);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    margin-top: 32px;
+    border: 0.5px solid var(--border);
+    font-size: 11px;
+    color: var(--text-tertiary);
+    line-height: 1.6;
+  }
+
+  .footer-title {
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    font-size: 12px;
+  }
+
+  /* ============ LOADING / ERROR ============ */
+  .state-message {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--text-secondary);
+  }
+
+  .state-message .icon { font-size: 32px; margin-bottom: 12px; }
+  .state-message .title { font-size: 16px; font-weight: 600; margin-bottom: 6px; color: var(--text-primary); }
+  .state-message .detail { font-size: 13px; color: var(--text-tertiary); }
+
+  /* ============ MEDIA QUERIES ============ */
+  @media (min-width: 600px) {
+    .digest-title { font-size: 32px; }
+    .event-title { font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-title" id="topbar-title">돌발 이벤트 모니터</div>
+    <button class="theme-toggle" id="theme-toggle" aria-label="테마 변경">🌙</button>
+  </div>
+
+  <div id="content">
+    <div class="state-message">
+      <div class="icon">⏳</div>
+      <div class="title">보고서를 불러오는 중...</div>
+      <div class="detail">latest.json을 읽고 있습니다</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-title">⚠️ 면책 고지</div>
+    본 보고서의 모든 주가 영향 추정은 분석 추정치이며 투자 권유가 아닙니다. 투자 결정은 본인의 판단과 책임 하에 이루어져야 합니다. 소스: Tier 1 매체.
+  </div>
+
+</div>
+
+<script>
+// ============ THEME TOGGLE ============
+const themeToggle = document.getElementById('theme-toggle');
+const root = document.documentElement;
+
+function setTheme(theme) {
+  root.setAttribute('data-theme', theme);
+  themeToggle.textContent = theme === 'light' ? '☀️' : '🌙';
+  localStorage.setItem('theme', theme);
+}
+
+const savedTheme = localStorage.getItem('theme') || 'dark';
+setTheme(savedTheme);
+
+themeToggle.addEventListener('click', () => {
+  const current = root.getAttribute('data-theme') || 'dark';
+  setTheme(current === 'dark' ? 'light' : 'dark');
+});
+
+// ============ RENDER ============
+const MONITORED_COMPANIES = [
+  { ticker: 'NVDA', kr: '엔비디아' },
+  { ticker: 'TSLA', kr: '테슬라' },
+  { ticker: '005930', kr: '삼성전자' },
+  { ticker: '000660', kr: 'SK하이닉스' },
+  { ticker: 'GOOGL', kr: '알파벳/구글' }
+];
+
+const RISK_LABEL_TO_CLASS = {
+  '매우 높음': 'very-high',
+  '높음': 'high',
+  '보통': 'medium',
+  '낮음': 'low'
+};
+
+const DIRECTION_TO_BADGE = {
+  '긍정': { cls: 'dir-pos', label: '긍정' },
+  '부정': { cls: 'dir-neg', label: '부정' },
+  '중립': { cls: 'dir-neu', label: '중립' },
+  '불확실': { cls: 'dir-unk', label: '불확실' }
+};
+
+function priceClass(direction) {
+  if (direction === '하락') return 'down';
+  if (direction === '상승') return 'up';
+  if (direction === '양방향') return 'bidirectional';
+  return 'neutral';
+}
+
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+function renderEvent(ev) {
+  const dirInfo = DIRECTION_TO_BADGE[ev.direction] || DIRECTION_TO_BADGE['중립'];
+  const impactPath = ev.impact_path ? `
+    <div class="impact-path-box">
+      <strong>영향 경로:</strong> ${escapeHtml(ev.impact_path)}
+    </div>` : '';
+
+  const sources = [ev.source_primary, ...(ev.source_secondary || [])]
+    .filter(Boolean)
+    .map((s, i) => {
+      const link = `<a class="source-link" href="${escapeHtml(s.url)}" target="_blank" rel="noopener">${escapeHtml(s.name)} ↗</a>`;
+      return i === 0 ? link : `<span class="source-divider">·</span>${link}`;
+    }).join('');
+
+  const tags = (ev.tags || []).map(t => `<span class="tag">#${escapeHtml(t)}</span>`).join('');
+
+  const st = ev.price_impact_estimate?.short_term || {};
+  const mt = ev.price_impact_estimate?.mid_term || {};
+
+  return `
+    <div class="event-card">
+      <div class="card-top">
+        <div class="badges">
+          <span class="badge cat">${escapeHtml(ev.category)}</span>
+          <span class="badge ${dirInfo.cls}">${dirInfo.label}</span>
+        </div>
+        <span class="total-score">합산 ${ev.total_score}점</span>
+      </div>
+
+      <h3 class="event-title">${escapeHtml(ev.title_kr)}</h3>
+      <p class="event-title-original">(${escapeHtml(ev.title_original)})</p>
+
+      <div class="summary-box">
+        <div class="box-label">📌 시사점</div>
+        <div class="summary-text">${escapeHtml(ev.summary)}</div>
+      </div>
+
+      ${impactPath}
+
+      <div class="scores-row">
+        <div class="score-box">
+          <div class="score-label">🎯 미예측</div>
+          <div class="score-stars">${escapeHtml(ev.unpredictability.stars)}</div>
+          <div class="score-reason">${escapeHtml(ev.unpredictability.reason)}</div>
+        </div>
+        <div class="score-box">
+          <div class="score-label">💥 임팩트</div>
+          <div class="score-stars">${escapeHtml(ev.impact.stars)}</div>
+          <div class="score-reason">${escapeHtml(ev.impact.reason)}</div>
+        </div>
+      </div>
+
+      <div class="price-box">
+        <div class="box-label">💰 주가 영향 추정</div>
+        <div class="price-row">
+          <span class="horizon">단기 (${escapeHtml(st.horizon || '1~3일')})</span>
+          <span class="value ${priceClass(st.direction)}">
+            ${escapeHtml(st.range_pct || '-')}%
+            <span class="confidence-tag">${escapeHtml(st.confidence || '낮음')}</span>
+          </span>
+        </div>
+        <div class="price-row">
+          <span class="horizon">중기 (${escapeHtml(mt.horizon || '1~4주')})</span>
+          <span class="value ${priceClass(mt.direction)}">
+            ${escapeHtml(mt.range_pct || '-')}
+            <span class="confidence-tag">${escapeHtml(mt.confidence || '낮음')}</span>
+          </span>
+        </div>
+        <div class="price-rationale">${escapeHtml(ev.price_impact_estimate?.rationale || '')}</div>
+        <div class="price-disclaimer">⚠️ ${escapeHtml(ev.price_impact_estimate?.disclaimer || '추정치이며 투자 권유가 아닙니다')}</div>
+      </div>
+
+      <div class="sources">${sources}</div>
+      <div class="card-meta">
+        <span>🕐 ${escapeHtml(ev.occurred_at_kst)} KST</span>
+      </div>
+      <div class="tags">${tags}</div>
+    </div>
+  `;
+}
+
+function render(data) {
+  const isTest = data.is_test === true;
+  const riskClass = RISK_LABEL_TO_CLASS[data.overall_risk_signal] || 'medium';
+
+  // 기업별로 이벤트 그룹화
+  const grouped = {};
+  for (const ev of (data.events || [])) {
+    if (!grouped[ev.ticker]) grouped[ev.ticker] = [];
+    grouped[ev.ticker].push(ev);
+  }
+
+  // 각 그룹 내 합산점수 내림차순 정렬
+  for (const t in grouped) {
+    grouped[t].sort((a, b) => (b.total_score || 0) - (a.total_score || 0));
+  }
+
+  const digestList = (data.daily_digest || []).map(s => `<li>${escapeHtml(s)}</li>`).join('');
+
+  const counts = data.events_by_company || {};
+  const breakdownText = MONITORED_COMPANIES
+    .map(c => `${c.kr.split('/')[0]} ${counts[c.ticker] || 0}`)
+    .join(' · ');
+
+  const companySections = MONITORED_COMPANIES.map(c => {
+    const events = grouped[c.ticker] || [];
+    const cards = events.length > 0
+      ? events.map(renderEvent).join('')
+      : `<div class="empty-state"><div class="check">✓</div>주목할 사항 없음</div>`;
+
+    return `
+      <div class="company-section">
+        <div class="company-header">
+          <span>${escapeHtml(c.kr)} (${escapeHtml(c.ticker)})</span>
+          <span class="company-count">${events.length}건</span>
+        </div>
+        ${cards}
+      </div>
+    `;
+  }).join('');
+
+  const html = `
+    ${isTest ? '<div class="test-banner">🧪 테스트 보고서 (TEST)</div>' : ''}
+    <div class="digest">
+      <div class="digest-meta">DAILY REPORT</div>
+      <h1 class="digest-title">돌발 이벤트 모니터</h1>
+      <div class="digest-date">${escapeHtml(data.generated_at_kst)} KST 기준 · 직전 16.5시간</div>
+
+      <span class="risk-pill ${riskClass}">⚠️ 종합 위험도: ${escapeHtml(data.overall_risk_signal)}</span>
+
+      <div class="digest-section-title">오늘의 핵심</div>
+      <ul class="digest-list">${digestList}</ul>
+
+      <div class="digest-stats">
+        <div class="stat-block">
+          <div class="stat-label">총 이벤트</div>
+          <div class="stat-value">${data.total_events}건</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-label">커버 기간</div>
+          <div class="stat-value" style="font-size:13px; line-height:1.4;">${escapeHtml(data.coverage_period_kst.from)}<br>~ ${escapeHtml(data.coverage_period_kst.to)}</div>
+        </div>
+      </div>
+
+      <div class="events-breakdown">${breakdownText}</div>
+    </div>
+
+    ${companySections}
+  `;
+
+  document.getElementById('content').innerHTML = html;
+  document.getElementById('topbar-title').textContent = data.generated_at_kst + ' KST';
+}
+
+function showError(msg) {
+  document.getElementById('content').innerHTML = `
+    <div class="state-message">
+      <div class="icon">⚠️</div>
+      <div class="title">보고서를 불러올 수 없습니다</div>
+      <div class="detail">${escapeHtml(msg)}</div>
+    </div>
+  `;
+}
+
+// ============ FETCH DATA ============
+fetch('reports/latest.json?t=' + Date.now())
+  .then(r => {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  })
+  .then(render)
+  .catch(err => showError(err.message + ' — reports/latest.json 파일을 확인해주세요'));
+</script>
+</body>
+</html>
